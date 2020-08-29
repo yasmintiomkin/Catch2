@@ -120,6 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnPieceClicked: {fileID: 11400000, guid: 5afa8927e41e7f14f86f8449aceb8aaf, type: 2}
   OnFallFromBottom: {fileID: 11400000, guid: 2c829048f2e3aa14fa31ca9ce49e00c5, type: 2}
+  particlePF: {fileID: 3505916800561316512, guid: 769dcff7398750340a16cc956632a39c, type: 3}
 --- !u!61 &6734229055283382776
 BoxCollider2D:
   m_ObjectHideFlags: 0

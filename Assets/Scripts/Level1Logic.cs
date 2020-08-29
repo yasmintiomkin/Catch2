@@ -13,6 +13,7 @@ public class Level1Logic : MonoBehaviour
     private int score = 0;
     private int numTargetClicks = 0;
 
+
     public void Start()
     {
         ResumeGame(); // just in case it was previously paused...

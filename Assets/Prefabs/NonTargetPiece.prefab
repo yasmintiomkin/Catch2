@@ -146,3 +146,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnPieceClicked: {fileID: 11400000, guid: a32fd0dc5cf069b4d89dcee0f8cb773f, type: 2}
   OnFallFromBottom: {fileID: 11400000, guid: 4120c1bf620915743ab28af265efdc44, type: 2}
+  particlePF: {fileID: 3505916800561316512, guid: 3a4b4e75e15927b4d8487ab972fe9c7e, type: 3}

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Target PieceData
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 2cc42583b03dd9743b29416684659857, type: 3}
-  score: 50
+  score: 500
   cost: 0

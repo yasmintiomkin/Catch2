@@ -4,15 +4,21 @@ using UnityEngine;
 public class Piece : MonoBehaviour
 {
 	[SerializeField]
-	private GameEvent OnPieceClicked;
+	GameEvent OnPieceClicked;
 
 	[SerializeField]
-	private GameEvent OnFallFromBottom;
+	GameEvent OnFallFromBottom;
+
+    [SerializeField]
+    GameObject particlePF;
+
 
     private void OnMouseDown()
 	{
-		OnPieceClicked.Raise();
-	}
+        Instantiate(particlePF, transform.position, Quaternion.identity);
+        Destroy(gameObject);
+        OnPieceClicked.Raise();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
