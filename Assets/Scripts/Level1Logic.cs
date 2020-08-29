@@ -3,8 +3,10 @@
 public class Level1Logic : MonoBehaviour
 {
     [SerializeField]
-    GameObject ui;
-    private Level1UI level1UI;
+    Level1UI level1UI;
+
+    [SerializeField]
+    PieceSpawner spawner;
 
     public int numTargetClicksToWin = 2;
 
@@ -15,7 +17,7 @@ public class Level1Logic : MonoBehaviour
     {
         ResumeGame(); // just in case it was previously paused...
 
-        level1UI = ui.GetComponent<Level1UI>();
+        spawner.Spawn();
     }
 
     void UpdateScore(int score)

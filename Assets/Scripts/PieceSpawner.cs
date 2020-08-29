@@ -1,14 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PieceSpawner : MonoBehaviour
 {
-    /*
-    public PairPieceController pairPiecePF;
-    public DontPairPieceController dontPairPiecePF;
+    public GameObject targetPiecePF;
+    public GameObject nonTargetPiecePF;
 
-    public GameLogic gameLogic;
+    [SerializeField]
+    List<GameObject> spawnPoints;
+    // Round without details (outline)
+    // Square without details (outline)
 
     public void Spawn()
     {
@@ -19,22 +22,25 @@ public class PieceSpawner : MonoBehaviour
     {
         for (int i = 0; i < 10; i++)
         {
-            Vector3 position = new Vector3(-1.5f + i / 10.0f, 3.4f, 0);
-            PieceController comp;
+            int index = i % spawnPoints.Count;
+            GameObject spawnPoint = spawnPoints[index];
+            Vector3 position = spawnPoint.transform.position;
+            GameObject comp;
 
-            if (i == 0 || i == 8)
+            //var sprite = Resources.Load<Sprite>("Round without details (outline)/pig");
+
+
+            if (i == 0 || i == 3)
             {
-                comp = Instantiate(pairPiecePF, position, Quaternion.identity);
+                comp = Instantiate(targetPiecePF, position, Quaternion.identity);
+                //comp.GetComponent<SpriteRenderer>().sprite = sprite;
             }
             else
             {
-                comp = Instantiate(dontPairPiecePF, position, Quaternion.identity);
+                comp = Instantiate(nonTargetPiecePF, position, Quaternion.identity);
             }
 
-            comp.gameLogic = gameLogic;
-
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
-    */
 }
