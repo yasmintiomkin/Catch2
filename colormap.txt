@@ -1,0 +1,11 @@
+orange #FFCE40
+yellow #D8E62C
+green #30FC3A
+sky blue #20E6C7
+blue #1F7AFF
+
+orange #FFB121
+green #A3FC23
+sky blue #20E6C7
+blue #2613D1
+red #FA1259

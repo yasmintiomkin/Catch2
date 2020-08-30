@@ -5,28 +5,28 @@ using UnityEngine.SceneManagement;
 public class Level1UI : MonoBehaviour
 {
     [SerializeField]
+    GameObject winBackground;
+
+    [SerializeField]
     GameObject restartButton;
 
     [SerializeField]
     Text scoreText;
 
     [SerializeField]
+    Text topScoreInSessionText, topScoreText;
+
+    [SerializeField]
     Text resultText;
 
     public void Start()
     {
-        HideRestartButton(true);
-        resultText.gameObject.SetActive(false);
+        ShowResultUI(false);
     }
 
     public void SetScore(int score)
     {
         scoreText.text = "" + score;
-    }
-
-    public void HideRestartButton(bool hide)
-    {
-        restartButton.SetActive(!hide);
     }
 
     public void GameWon(bool isWin)
@@ -40,8 +40,19 @@ public class Level1UI : MonoBehaviour
             resultText.text = "You Lost :(";
         }
 
-        resultText.gameObject.SetActive(true);
-        HideRestartButton(false);
+        topScoreInSessionText.text = "Best Score Today: " + DataSource.topScoreInSession;
+        topScoreText.text = "Best of the Best: " + DataSource.topScore;
+
+        ShowResultUI(true);
+    }
+
+    void ShowResultUI(bool show)
+    {
+        winBackground.SetActive(show);
+        resultText.gameObject.SetActive(show);
+        topScoreInSessionText.gameObject.SetActive(show);
+        topScoreText.gameObject.SetActive(show);
+        restartButton.SetActive(show);
     }
 
     public void OnRestartClick()

@@ -25,6 +25,8 @@ public class Level1Logic : MonoBehaviour
     {
         this.score += score;
         level1UI.SetScore(this.score);
+
+        DataSource.updateTopScores(this.score);
     }
 
     public void OnTargetClicked(PieceData data)
@@ -35,6 +37,7 @@ public class Level1Logic : MonoBehaviour
         if (numTargetClicks == numTargetClicksToWin)
         {
             level1UI.GameWon(true);
+            DataSource.addNewWinInSession();
             PauseGame();
         }
     }
@@ -52,7 +55,7 @@ public class Level1Logic : MonoBehaviour
 
     public void OnNonTargetFallFromBottom(PieceData data)
     {
-        Debug.Log("OnNonTargetFallFromBottom");
+        // we don't care
     }
 
     void PauseGame()
