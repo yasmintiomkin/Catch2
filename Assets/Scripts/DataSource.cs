@@ -2,6 +2,8 @@
 
 public class DataSource 
 {
+    public enum Difficulty { easy = 1, medium = 2, hard = 3 };
+
     static public void PrepareNewSession()
     {
         DataSource.winsInSession = 0;
@@ -26,13 +28,26 @@ public class DataSource
     {
         get
         {
-            return PlayerPrefs.GetInt("difficulty", 0);
+            return PlayerPrefs.GetInt("difficulty", 1);
         }
 
         set
         {
             PlayerPrefs.SetInt("difficulty", value);
             PlayerPrefs.Save();
+        }
+    }
+
+    static public Difficulty difficultyEnum
+    {
+        get
+        {
+            switch (difficulty)
+            {
+                case 1:  return Difficulty.easy; 
+                case 2:  return Difficulty.medium; 
+                default: return Difficulty.hard; 
+            }
         }
     }
 

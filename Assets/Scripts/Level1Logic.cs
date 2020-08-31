@@ -12,10 +12,11 @@ public class Level1Logic : MonoBehaviour
 
     private int score = 0;
     private int numTargetClicks = 0;
-
+    private int scoreScale = 1;
 
     public void Start()
     {
+        scoreScale = DataSource.difficulty;
         ResumeGame(); // just in case it was previously paused...
 
         spawner.Spawn();
@@ -23,7 +24,7 @@ public class Level1Logic : MonoBehaviour
 
     void UpdateScore(int score)
     {
-        this.score += score;
+        this.score += score * scoreScale;
         level1UI.SetScore(this.score);
 
         DataSource.updateTopScores(this.score);
