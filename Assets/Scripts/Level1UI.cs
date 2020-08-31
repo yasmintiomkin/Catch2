@@ -40,8 +40,8 @@ public class Level1UI : MonoBehaviour
             resultText.text = "You Lost :(";
         }
 
-        topScoreInSessionText.text = "Best Score Today: " + DataSource.topScoreInSession;
-        topScoreText.text = "Best of the Best: " + DataSource.topScore;
+        topScoreInSessionText.text = "Best Score Today:\n" + DataSource.topScoreInSession;
+        topScoreText.text = "Best of the Best:\n" + DataSource.topScore;
 
         ShowResultUI(true);
     }
