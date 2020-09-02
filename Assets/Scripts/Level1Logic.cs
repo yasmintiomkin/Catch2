@@ -35,11 +35,15 @@ public class Level1Logic : MonoBehaviour
         UpdateScore(data.score);
         numTargetClicks++;
 
-        if (numTargetClicks == numTargetClicksToWin)
+        if (numTargetClicks % numTargetClicksToWin == 0)
         {
+            // restart spawning with another pair
+            spawner.Spawn();
+            /*
             level1UI.GameWon(true);
             DataSource.addNewWinInSession();
             PauseGame();
+            */
         }
     }
 
@@ -52,6 +56,9 @@ public class Level1Logic : MonoBehaviour
     public void OnNonTargetClicked(PieceData data)
     {
         UpdateScore(data.score);
+
+        level1UI.GameWon(false);
+        PauseGame();
     }
 
     public void OnNonTargetFallFromBottom(PieceData data)

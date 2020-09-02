@@ -15,12 +15,20 @@ public class PieceSpawner : MonoBehaviour
     List<GameObject> spawnPoints;
 
     DataSource.Difficulty difficulty = DataSource.Difficulty.easy;
+    IEnumerator coroutine;
 
     public void Spawn()
     {
         difficulty = DataSource.difficultyEnum;
 
-        StartCoroutine(SpawnCoroutine());
+        if (coroutine != null)
+        {
+            // stop previous spawning
+            StopCoroutine(coroutine);
+        }
+
+        coroutine = SpawnCoroutine();
+        StartCoroutine(coroutine);
     }
 
     private IEnumerator SpawnCoroutine()
@@ -44,7 +52,7 @@ public class PieceSpawner : MonoBehaviour
                 {
                     comp.GetComponent<SpriteRenderer>().sprite = spriteGenerator.targetSprite;
                 }
-                comp.GetComponent<Rigidbody2D>().gravityScale *= (int)difficulty;
+                comp.GetComponent<Rigidbody2D>().gravityScale *= spriteGenerator.gravityScaleMultiplier;//(int)difficulty;
             }
             else
             {
@@ -54,10 +62,10 @@ public class PieceSpawner : MonoBehaviour
                 {
                     comp.GetComponent<SpriteRenderer>().sprite = spriteGenerator.nonTSprite;
                 }
-                comp.GetComponent<Rigidbody2D>().gravityScale *= (int)difficulty;
+                comp.GetComponent<Rigidbody2D>().gravityScale *= spriteGenerator.gravityScaleMultiplier;//(int)difficulty;
             }
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f / (int)difficulty);
         }
     }
 }
@@ -65,29 +73,43 @@ public class PieceSpawner : MonoBehaviour
 class SpawnerTargetPieceIndexGenerator
 {
     public int totalPieces = 10;
-    public int[] targetPieceIndices = { 0, 3 };
+    public int[] targetPieceIndices = { 0, 5 };
 
     public void Perform(DataSource.Difficulty difficulty)
     {
+        int index1 = 0, index2 = 5;
         switch (difficulty)
         {
             case DataSource.Difficulty.easy:
-                targetPieceIndices = new int[] { 0, 3 };
                 totalPieces = 10;
+                index1 = 0;
+                index2 = 5;
                 break;
 
             case DataSource.Difficulty.medium:
-                targetPieceIndices = new int[] { 3, 7 };
                 totalPieces = 16;
+                index1 = Rand(2, totalPieces - 4);
+                index2 = Rand(index1 + 1, totalPieces);
+                targetPieceIndices = new int[] { index1, index2 };
                 break;
 
             case DataSource.Difficulty.hard:
-                targetPieceIndices = new int[] { 5, 11 };
                 totalPieces = 20;
+                index1 = Rand(3, totalPieces - 6);
+                index2 = Rand(index1 + 1, totalPieces);
+                targetPieceIndices = new int[] { index1, index2 };
                 break;
         }
+
+        targetPieceIndices = new int[] { index1, index2 };
     }
 
+    int Rand(int min, int max)
+    {
+        UnityEngine.Random.InitState(DateTime.Now.Millisecond + max); // make randow seem more random
+        int rand = UnityEngine.Random.Range(min, max);
+        return rand;
+    }
 }
 
 class SpawnerSpriteGenerator
@@ -95,6 +117,8 @@ class SpawnerSpriteGenerator
     // array length must be EVEN
     string[] spriteNames = { "elephant", "giraffe", "hippo", "monkey", "panda", "parrot", "penguin", "pig", "rabbit", "snake" };
     DataSource.Difficulty difficulty;
+
+    public float gravityScaleMultiplier = 1.0f;
 
     public Sprite targetSprite;
 
@@ -133,11 +157,18 @@ class SpawnerSpriteGenerator
 
         targetSprite = Resources.Load<Sprite>("Round without details (outline)/" + targetSpriteName);
         _nonTSprite = Resources.Load<Sprite>("Square without details (outline)/" + nonTSN);
+
+        switch (difficulty)
+        {
+            case DataSource.Difficulty.easy: gravityScaleMultiplier = 1.0f; break;
+            case DataSource.Difficulty.medium: gravityScaleMultiplier = 5.0f; break;
+            case DataSource.Difficulty.hard: gravityScaleMultiplier = 8.0f; break;
+        }
     }
 
     void GenerateNextNonTSprite()
     {
-        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond); // make randow seem more random
+        UnityEngine.Random.InitState(DateTime.Now.Millisecond); // make randow seem more random
         int nextSpriteIndex = UnityEngine.Random.Range(0, spriteNames.Count());
         string nonTSN = spriteNames[nextSpriteIndex];
         _nonTSprite = Resources.Load<Sprite>("Square without details (outline)/" + nonTSN);
