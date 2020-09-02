@@ -1,34 +1,64 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+//using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public void OnPlayEasyButtonClick()
+    public Toggle easyToggle;
+    public Toggle mediumToggle;
+    public Toggle hardToggle;
+
+    bool ignoreValueChanged = false;
+    int difficulty = 1;
+
+    private void Start()
     {
-        DataSource.difficulty = 1;
-        DataSource.PrepareNewSession();
-        LoadLevel1();
+        difficulty = DataSource.difficulty;
+        
+        // check saved selection
+        Toggle[] arr = { easyToggle, mediumToggle, hardToggle };
+        arr[difficulty - 1].isOn = true;
     }
 
-    public void OnPlayMediumButtonClick()
+    public void OnPlayEasyToggleValueChanged(bool value)
     {
-        DataSource.difficulty = 2;
-        DataSource.PrepareNewSession();
-        LoadLevel1();
+        UpdateDifficultyLevel(1, easyToggle, mediumToggle, hardToggle);
+    }   
+    
+    public void OnPlayMediumToggleValueChanged(bool value)
+    {
+        UpdateDifficultyLevel(2, mediumToggle, easyToggle, hardToggle);
+    }
+    
+    public void OnPlayHardToggleValueChanged(bool value)
+    {
+        UpdateDifficultyLevel(3, hardToggle, mediumToggle, easyToggle);
     }
 
-    public void OnPlayHardButtonClick()
+    public void OnPlayButtonClick()
     {
-        DataSource.difficulty = 3;
+        DataSource.difficulty = difficulty; // save selection
         DataSource.PrepareNewSession();
-        LoadLevel1();
-    }
-
-    void LoadLevel1()
-    {
         SceneManager.LoadScene("Level1");
+    }
+
+    void UpdateDifficultyLevel(int difficulty, Toggle selected, Toggle other1, Toggle other2)
+    {
+        if (ignoreValueChanged) return;
+        ignoreValueChanged = true;
+        if (this.difficulty == difficulty)
+        {
+            selected.isOn = true;
+        }
+        else
+        {
+            other1.isOn = false;
+            other2.isOn = false;
+            this.difficulty = difficulty;
+        }
+        Debug.Log("difficulty: " + difficulty);
+        ignoreValueChanged = false;
     }
 
     public void OnQuitButtonClick()
